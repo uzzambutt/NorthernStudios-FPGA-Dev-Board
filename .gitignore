@@ -6,6 +6,8 @@ _autosave-*
 *.kicad_prl
 fp-info-cache
 *.kicad_dru
+*.lck
+*-backups/
 
 # Manufacturing output / Gerber directories (typically generated, not tracked)
 # Uncomment the line below if you generate gerbers in a folder named 'plots' or 'gerber' and want to exclude them
