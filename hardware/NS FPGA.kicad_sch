@@ -6371,6 +6371,10 @@
 		(uuid "ad5868ba-cbd2-4090-ab23-d80189ab17f8")
 	)
 	(no_connect
+		(at 219.71 214.63)
+		(uuid "b141e490-91a5-4cac-9e95-d3e864d07786")
+	)
+	(no_connect
 		(at 129.54 190.5)
 		(uuid "b873ed99-f5fe-42a0-98ce-7022178d5736")
 	)
@@ -8422,19 +8426,6 @@
 			(justify left bottom)
 		)
 		(uuid "4b8f4620-eefd-4856-853d-0a657fe0eb43")
-	)
-	(label "IO_D6"
-		(at 219.71 214.63 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-				(thickness 0.254)
-				(bold yes)
-				(italic yes)
-			)
-			(justify right bottom)
-		)
-		(uuid "4c5fd7e5-1c69-496f-a61e-9d3da7acce10")
 	)
 	(label "IO_D8"
 		(at 243.84 217.17 0)
