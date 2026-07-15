@@ -8,82 +8,87 @@
 
 ---
 
-## 🎨 Overview
+## Overview
 
-An open-source FPGA development board designed in KiCad v9.0, built around the Gowin GW1NSR-4C microcontroller-FPGA hybrid. The board integrates power management, USB-to-UART bridging, clocking, and expanded I/Os, making it a compact and capable platform for embedded hardware and FPGA development.
+This repository contains the hardware design files for the NorthernStudios FPGA Dev Board. The board is designed in KiCad v9.0 and is built around the Gowin GW1NSR-4C, a hybrid FPGA chip containing an embedded ARM Cortex-M3 microcontroller. 
+
+The design features complete power management, a USB-to-UART bridging interface, on-board clocking, user-programmable peripherals, and dual 24-pin expansion headers breaking out all major GPIOs. It is optimized as a compact and low-cost development platform for mixed hardware-firmware and gateware projects.
 
 ![NorthernStudios FPGA Dev Board Thumbnail](Images/image.webp)
 
 ---
 
-## 🔧 Hardware Features & Specifications
+## Hardware Specifications
 
-### 1. **Core Processing Unit**
-- **FPGA Chip**: **Gowin GW1NSR-4C (GW1NSR-4C_MG64P)**
-  - Embedded **ARM Cortex-M3** Hard IP Core
-  - 4,608 Look-Up Tables (LUTs)
-  - 3,456 Flip-Flops (FFs)
-  - Embedded Block RAM (sRAM) and Flash memory
-  - High-performance, low-power MBGA64 package
+### FPGA Core
+* FPGA Chip: Gowin GW1NSR-4C (specifically GW1NSR-4C_MG64P in an MBGA64 package)
+* Embedded ARM Cortex-M3 hard core processor
+* 4,608 Look-Up Tables (LUTs)
+* 3,456 Flip-Flops (FFs)
+* Embedded block SRAM and internal Flash memory
 
-### 2. **Power Architecture**
-- **Primary Input**: USB Type-C (+5V VBUS)
-- **Regulators**:
-  - **AP2112K-3.3** (LDO, 600mA): Delivers stable **+3.3V** to the FPGA I/O banks, clock oscillator, and USB-to-UART bridge.
-  - **AP2112K-1.2** (LDO, 600mA): Delivers **+1.2V** core voltage to the Gowin FPGA.
-- **Filtering/Decoupling**: Dedicated bypass capacitors (0.1uF and 10uF) on all power rails to minimize noise.
+### Power Delivery
+* Input Source: USB Type-C (+5V VBUS)
+* Core Regulator: AP2112K-1.2 LDO (600mA) generating +1.2V for the FPGA core
+* I/O and Peripheral Regulator: AP2112K-3.3 LDO (600mA) generating +3.3V for I/O banks, clocking, and UART bridge
+* Decoupling: Optimized bypass capacitor networks (0.1uF and 10uF) on each power pin to ensure low-noise rails
 
-### 3. **Connectivity & Interface**
-- **USB Interface**: USB 2.0 Type-C connector.
-- **USB-to-UART Bridge**: **CP2102N-Axx-xQFN24** for high-speed serial communication, programming, and debugging.
-- **Expansion I/O**: Dual 24-pin headers (`Conn_01x24_Pin`) breakout for FPGA pins, GPIOs, power rails, and ground, enabling easy breadboarding and peripheral expansion.
-- **PMOD / Interface Header**: 6-pin connector (`Conn_01x06_Pin`) for SPI, I2C, or UART hardware attachments.
+### Interfaces and Connectivity
+* USB Connector: USB 2.0 Type-C interface
+* Serial Communication: CP2102N USB-to-UART bridge for programming and debug output
+* Main Breakout: Dual 24-pin headers for breadboard compatibility, exposing FPGA I/Os, system power, and ground pins
+* Accessory Port: 6-pin PMOD-style header for SPI, I2C, or UART hardware attachments
 
-### 4. **Clocking & Peripherals**
-- **Oscillator**: **SG-8002CE (24.0000MHz)** active crystal oscillator.
-- **User Interface**: 
-  - Reset and user-definable push buttons (`SW_Push`).
-  - Diagnostic and status LEDs.
-- **Level Shifter / Switches**: N-channel MOSFETs (**BSS138**) for level translation or switching purposes.
+### Clocking and User Controls
+* Clock Oscillator: SG-8002CE (24.0000 MHz) active crystal oscillator
+* User Controls: Push buttons for system reset and user input
+* Visual Indicators: Status and user-configurable LEDs
+* Level Translation: BSS138 N-channel MOSFET circuit for voltage-level switching
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
-├── Images/                 # Documentation media and schematic/PCB renders
-│   └── image.webp          # Board/PCB top-view render thumbnail
-├── datasheets/             # Component datasheets
-├── docs/                   # PDFs of schematics, layout diagrams, and user guide
+├── Images/                 # Board renders and project documentation media
+│   └── image.webp          # Top-view 3D render of the PCB
+├── datasheets/             # Component datasheets and technical documentation
+├── docs/                   # PDF schematics and board layer printouts
 └── hardware/               # KiCad 9.0 project files
-    ├── libraries/          # Custom libraries
-    │   ├── 3d_models/      # Custom 3D step models
-    │   ├── footprints/     # Footprints (.pretty)
-    │   └── symbols/        # Schematic symbols
-    ├── NS FPGA.kicad_pro   # KiCad Project File
-    ├── NS FPGA.kicad_sch   # KiCad Schematic
-    └── NS FPGA.kicad_pcb   # KiCad PCB Layout
+    ├── jlcpcb/             # Automatically generated manufacturing outputs
+    │   ├── gerber/         # Individual 6-layer Gerber and Drill files
+    │   └── production_files/ # Zipped Gerbers, BOM, and CPL files for assembly
+    ├── libraries/          # Custom symbol, footprint, and 3D model libraries
+    │   ├── 3d_models/      
+    │   ├── footprints/     
+    │   └── symbols/        
+    ├── NS FPGA.kicad_pro   # KiCad project configuration file
+    ├── NS FPGA.kicad_sch   # KiCad schematic file
+    └── NS FPGA.kicad_pcb   # KiCad 6-layer PCB layout file
 ```
 
 ---
 
-## 🛠️ Design & Manufacturing Guidelines
+## Manufacturing and Assembly
 
-### **KiCad Setup**
-1. Ensure you are running **KiCad v9.0** (or later) to open the `.kicad_pro` project.
-2. Link the custom symbol library [gowin_fpga.lib](file:///D:/NS%20FPGA/gowin_fpga.lib) or search/place custom parts under `hardware/libraries/`.
+The board layout is a 6-layer design optimized for standard manufacturing capabilities. Production-ready manufacturing files are located in the `hardware/jlcpcb/production_files/` directory, set up specifically for JLCPCB fabrication and automated SMT assembly.
 
-### **Manufacturing Files**
-To order this PCB from fabrication houses (e.g., JLCPCB, PCBWay):
-1. **DRC**: Run the Design Rule Checker in KiCad's PCB Editor to verify trace width, clearances, and annular rings.
-2. **Gerbers**: Export Gerber files (including copper layers, solder mask, silkscreen, edge cuts) and Excellon Drill files.
-3. **BOM/CPL**: Generate the Bill of Materials and Centroid/Pick-and-Place coordinates if opting for SMD assembly.
+* **Gerber Files**: A complete zip archive (`GERBER-NS FPGA.zip`) contains all 6 copper layers, solder masks, silkscreens, edge cuts, and NC drill files.
+* **Bill of Materials (BOM)**: `BOM-NS FPGA.csv` includes LCSC part numbers pre-assigned to all SMD components to streamline the JLCPCB parts selection process.
+* **Component Placement List (CPL)**: `CPL-NS FPGA.csv` contains the exact centroid coordinates and rotation angles for automated SMT pick-and-place machines.
 
 ---
 
-## ⚖️ License
+## KiCad Setup
 
-This project is open-source hardware licensed under the **[MIT License](LICENSE)**. 
+1. Open the project using KiCad v9.0 or later by selecting [NS FPGA.kicad_pro](file:///D:/NS%20FPGA/hardware/NS%20FPGA.kicad_pro).
+2. The Gowin FPGA symbol is located in the local library file [gowin_fpga.lib](file:///D:/NS%20FPGA/gowin_fpga.lib). Make sure it is mapped correctly in your KiCad symbol library table if you plan to edit the schematics.
+
+---
+
+## License
+
+This project is open-source hardware licensed under the [MIT License](LICENSE).
 
 ---
 
